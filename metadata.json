@@ -1,0 +1,6 @@
+{
+  "name": "Agentic YouTube Intelligence",
+  "description": "An AI-powered research agent that searches YouTube, retrieves transcripts, analyzes content with Gemini, evaluates business relevance, and generates structured reports and exports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
