@@ -20,7 +20,7 @@ export default function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<VideoAnalysis | null>(null);
-  const [isPrinting, setIsPrinting] = useState(false);
+  const [exportData, setExportData] = useState<{ report: ReportSummary; videos: VideoAnalysis[] } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(() => {
     return typeof window !== "undefined" ? window.innerWidth >= 1024 : true;
   });
@@ -254,6 +254,28 @@ export default function App() {
     }
   };
 
+  // 7. Handle direct PDF export
+  const handleExportPDF = async (runId: string) => {
+    try {
+      setErrorMsg(null);
+      const [reportRes, videosRes] = await Promise.all([
+        fetch(`/api/runs/${runId}/report`),
+        fetch(`/api/runs/${runId}/videos`)
+      ]);
+
+      if (reportRes.ok && videosRes.ok) {
+        const rData = await reportRes.json() as ReportSummary;
+        const vData = await videosRes.json() as VideoAnalysis[];
+        setExportData({ report: rData, videos: vData });
+      } else {
+        setErrorMsg("Failed to load search report details for PDF export.");
+      }
+    } catch (err) {
+      console.error("Export PDF error:", err);
+      setErrorMsg("Failed to generate PDF report.");
+    }
+  };
+
   if (loading) {
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-slate-50 gap-3">
@@ -266,13 +288,14 @@ export default function App() {
   return (
     <div className="h-screen w-screen bg-[#FAF9F6] flex overflow-hidden font-sans relative antialiased">
       {/* 1. PAST SESSIONS HISTORY PANEL */}
-      <div className={`transition-all duration-300 ease-in-out ${sidebarOpen ? "w-80 border-r border-slate-200/80 translate-x-0" : "w-0 overflow-hidden border-r-0 -translate-x-full lg:translate-x-0"} absolute lg:relative z-30 h-full bg-white`}>
+      <div className={`no-print transition-all duration-300 ease-in-out ${sidebarOpen ? "w-80 border-r border-slate-200/80 translate-x-0" : "w-0 overflow-hidden border-r-0 -translate-x-full lg:translate-x-0"} absolute lg:relative z-30 h-full bg-white`}>
         <HistorySidebar
           runs={runs}
           activeRunId={activeRunId}
           onSelectRun={handleSelectRun}
           onDeleteRun={handleDeleteRun}
           onNewResearch={handleNewResearchClick}
+          onExportPDF={handleExportPDF}
           apiStatus={apiStatus}
         />
       </div>
@@ -280,13 +303,13 @@ export default function App() {
       {/* Backdrop overlay for mobile screen when sidebar is open */}
       {sidebarOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-25 transition-all duration-300 cursor-pointer"
+          className="no-print lg:hidden fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-25 transition-all duration-300 cursor-pointer"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* 2. MAIN APPLICATION CONTENT VIEWPORTS */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+      <div className="no-print flex-1 flex flex-col h-full overflow-hidden relative">
         {/* Floating Collapsible Sidebar Trigger */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -335,7 +358,7 @@ export default function App() {
                 report={activeReport}
                 videos={activeVideos}
                 onSelectVideo={(video) => setSelectedVideo(video)}
-                onExportPDF={() => setIsPrinting(true)}
+                onExportPDF={() => setExportData({ report: activeReport, videos: activeVideos })}
                 apiStatus={apiStatus}
               />
             ) : activeRun.status === "failed" ? (
@@ -397,11 +420,11 @@ export default function App() {
       </AnimatePresence>
 
       {/* 4. PRINT-READY COVERAGE PREVIEW (INVOKED ON PRINT) */}
-      {isPrinting && activeReport && (
+      {exportData && (
         <PrintableReport
-          report={activeReport}
-          videos={activeVideos}
-          onClose={() => setIsPrinting(false)}
+          report={exportData.report}
+          videos={exportData.videos}
+          onClose={() => setExportData(null)}
         />
       )}
     </div>

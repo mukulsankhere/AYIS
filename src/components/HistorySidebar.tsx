@@ -1,6 +1,6 @@
 import React from "react";
 import { ResearchRun } from "../types";
-import { Search, History, Trash2, Calendar, Play, AlertCircle, CheckCircle2, Loader2, Plus } from "lucide-react";
+import { Search, History, Trash2, Calendar, Play, AlertCircle, CheckCircle2, Loader2, Plus, FileText } from "lucide-react";
 import { motion } from "motion/react";
 
 interface HistorySidebarProps {
@@ -9,6 +9,7 @@ interface HistorySidebarProps {
   onSelectRun: (id: string) => void;
   onDeleteRun: (id: string) => void;
   onNewResearch: () => void;
+  onExportPDF: (id: string) => void;
   apiStatus: { geminiKeyConfigured: boolean; youtubeKeyConfigured: boolean; geminiQuotaExhausted?: boolean } | null;
 }
 
@@ -18,6 +19,7 @@ export default function HistorySidebar({
   onSelectRun,
   onDeleteRun,
   onNewResearch,
+  onExportPDF,
   apiStatus
 }: HistorySidebarProps) {
   const formatDate = (isoStr: string) => {
@@ -112,51 +114,36 @@ export default function HistorySidebar({
                   </div>
                 </div>
 
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDeleteRun(run.id);
-                  }}
-                  className="absolute right-2 opacity-0 group-hover:opacity-100 hover:text-rose-600 p-1.5 text-slate-400 hover:bg-rose-50 rounded-md transition-all"
-                  title="Delete run"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
+                <div className="absolute right-2 opacity-0 group-hover:opacity-100 flex items-center gap-1 bg-white/95 backdrop-blur-xs pl-2 py-1 rounded-md transition-all">
+                  {run.status === "completed" && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onExportPDF(run.id);
+                      }}
+                      className="hover:text-emerald-600 p-1 text-slate-400 hover:bg-emerald-50 rounded-md transition-all"
+                      title="Export PDF Report"
+                    >
+                      <FileText className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteRun(run.id);
+                    }}
+                    className="hover:text-rose-600 p-1 text-slate-400 hover:bg-rose-50 rounded-md transition-all"
+                    title="Delete run"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
               </motion.div>
             );
           })
         )}
       </div>
 
-      {/* API Key Status Banner at the bottom */}
-      {apiStatus && (
-        <div className="p-4 border-t border-slate-100 bg-slate-50/60 text-xs flex-shrink-0">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-slate-500 font-medium whitespace-nowrap">Gemini AI Engine:</span>
-              {apiStatus.geminiQuotaExhausted ? (
-                <span className="px-1.5 py-0.5 rounded font-semibold text-[10px] bg-amber-50 text-amber-800 border border-amber-200 truncate" title="Demo Mode (Quota Exhausted)">
-                  Demo (Quota Maxed)
-                </span>
-              ) : apiStatus.geminiKeyConfigured ? (
-                <span className="px-1.5 py-0.5 rounded font-semibold text-[10px] bg-emerald-100 text-emerald-800 truncate">
-                  Active (Gemini 3.5)
-                </span>
-              ) : (
-                <span className="px-1.5 py-0.5 rounded font-semibold text-[10px] bg-slate-200 text-slate-700 truncate">
-                  Demo Fallback
-                </span>
-              )}
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-slate-500 font-medium">YouTube Data v3:</span>
-              <span className={`px-1.5 py-0.5 rounded font-semibold text-[10px] ${apiStatus.youtubeKeyConfigured ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-700"}`}>
-                {apiStatus.youtubeKeyConfigured ? "Live API" : "Live Scrape"}
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

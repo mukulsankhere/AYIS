@@ -721,20 +721,6 @@ export default function ReportSummaryDashboard({
           )}
         </div>
 
-        {/* Double check - Bottom Print Export as PDF per the absolute requirements */}
-        <div className="pt-8 border-t border-slate-200/50 flex flex-col items-center gap-4 text-center">
-          <p className="text-slate-400 text-xs leading-relaxed max-w-md">
-            All extracted YouTube metrics, claims, and analysis coordinates are preserved in the export. Click below to generate your offline executive deck.
-          </p>
-          <button
-            onClick={onExportPDF}
-            className="flex items-center gap-2 py-3 px-6 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] transition-all rounded-xl text-white font-semibold text-sm shadow-sm"
-          >
-            <Download className="h-4.5 w-4.5" />
-            Export Comprehensive Report (PDF)
-          </button>
-        </div>
-
       </div>
     </div>
   );

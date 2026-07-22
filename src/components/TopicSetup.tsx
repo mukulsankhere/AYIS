@@ -35,7 +35,7 @@ const LANGUAGES = [
 const DEMO_SUGGESTIONS = [
   { topic: "Millets", prompt: "Benefits of Millets, diabetes benefits, preparation", icon: "🌾" },
   { topic: "Aloe Vera", prompt: "Aloe Vera skincare scientific review, drinking aloin safety", icon: "🌱" },
-  { topic: "Protein Powder", prompt: "Heavy metals protein powder, whey vs plant protein", icon: "💪" },
+  { topic: "Plant Protein", prompt: "Heavy metals plant protein, whey vs plant protein", icon: "💪" },
   { topic: "Honey", prompt: "Is raw honey healthy, benefits vs sugar side effects", icon: "🍯" }
 ];
 

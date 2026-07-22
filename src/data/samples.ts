@@ -409,14 +409,14 @@ export const SAMPLE_TOPICS: { [key: string]: SampleTopic } = {
     ]
   },
   protein_powder: {
-    topic: "Protein Powder",
+    topic: "Plant Protein",
     search_prompts: [
-      "Is protein powder bad for kidneys",
+      "Is plant protein bad for kidneys",
       "Plant protein vs Whey protein",
-      "Which protein powder is best"
+      "Which plant protein is best"
     ],
     report: {
-      topic: "Protein Powder",
+      topic: "Plant Protein",
       total_videos: 3,
       sentiment_breakdown: {
         Positive: 2,
@@ -430,7 +430,7 @@ export const SAMPLE_TOPICS: { [key: string]: SampleTopic } = {
         { benefit: "Satiety and weight-management", count: 2 }
       ],
       top_pain_points: [
-        { pain_point: "Heavy metals contamination in cheaper powders", count: 3 },
+        { pain_point: "Heavy metals contamination in cheaper proteins", count: 3 },
         { pain_point: "Bloating and digestive discomfort from lactose/whey", count: 2 },
         { pain_point: "Chalky texture and earthy flavor of plant proteins", count: 2 },
         { pain_point: "Artificial sweeteners and fillers", count: 2 }
@@ -448,14 +448,14 @@ export const SAMPLE_TOPICS: { [key: string]: SampleTopic } = {
       opportunities: [
         "Developing clean-label plant protein without artificial sweeteners or thickeners.",
         "Third-party certified heavy-metal-free whey isolates targeting safety-conscious gym-goers.",
-        "Digestive-enzyme-infused protein powders to solve the bloating pain point."
+        "Digestive-enzyme-infused plant proteins to solve the bloating pain point."
       ],
       business_relevance_counts: {
         High: 2,
         Medium: 1,
         Low: 0
       },
-      executive_summary: "The protein powder market is shifting rapidly from pure bodybuilding demographics to mainstream health seekers. While Whey remain the gold standard for amino acid profile, lactose intolerance and bloating are driving huge adoption of plant-based proteins. However, plant proteins suffer from poor texture (chalkiness) and heavy metal concerns. Delivering a delicious, digestively optimized, clean-label plant protein is the single biggest market opportunity.",
+      executive_summary: "The plant protein market is shifting rapidly from pure bodybuilding demographics to mainstream health seekers. While Whey remains the gold standard for amino acid profile, lactose intolerance and bloating are driving huge adoption of plant-based proteins. However, plant proteins suffer from poor texture (chalkiness) and heavy metal concerns. Delivering a delicious, digestively optimized, clean-label plant protein is the single biggest market opportunity.",
       recommendations: [
         "Launch an organic, non-chalky plant protein blend (Pea, Rice, Sacha Inchi) flavored with real cocoa.",
         "Prominently market 'Tested for Heavy Metals' and 'Zero Bloating' on packaging to solve major buyer fears.",
@@ -465,7 +465,7 @@ export const SAMPLE_TOPICS: { [key: string]: SampleTopic } = {
     videos: [
       {
         video_id: "P2M1f_512yA",
-        title: "The Truth About Heavy Metals in Protein Powders",
+        title: "The Truth About Heavy Metals in Plant Proteins",
         channel_name: "Clean Label Project",
         video_url: "https://www.youtube.com/watch?v=P2M1f_512yA",
         published_date: "2026-03-05T12:00:00Z",
@@ -476,7 +476,7 @@ export const SAMPLE_TOPICS: { [key: string]: SampleTopic } = {
         video_classification: ["Educational", "News"],
         audience_type: ["Consumers", "Fitness Enthusiasts"],
         benefits_discussed: [
-          { benefit: "Muscle repair", evidence_snippet: "Proteins are vital for tissue building, but not all protein powders are created clean.", timestamp: "01:05" }
+          { benefit: "Muscle repair", evidence_snippet: "Proteins are vital for tissue building, but not all plant proteins are created clean.", timestamp: "01:05" }
         ],
         pain_points: [
           { pain_point: "Heavy metals", evidence_snippet: "Our testing revealed arsenic, cadmium, and lead in over 70% of leading plant protein powders, likely absorbed through agricultural soil.", timestamp: "03:40" }
@@ -487,7 +487,7 @@ export const SAMPLE_TOPICS: { [key: string]: SampleTopic } = {
         ],
         claims: [
           {
-            claim_text: "Many plant-based organic protein powders have higher heavy metal levels than non-organic whey.",
+            claim_text: "Many plant-based organic plant proteins have higher heavy metal levels than non-organic whey.",
             claim_type: "Scientific",
             confidence_level: "High",
             evidence_supported: true,

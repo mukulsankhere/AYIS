@@ -76,10 +76,10 @@ function loadDatabase() {
       db.videos["run_aloe_vera"] = SAMPLE_TOPICS.aloe_vera.videos;
       db.reports["run_aloe_vera"] = SAMPLE_TOPICS.aloe_vera.report;
 
-      // Seed Protein Powder
+      // Seed Plant Protein
       db.runs["run_protein_powder"] = {
         id: "run_protein_powder",
-        topic: "Protein Powder",
+        topic: "Plant Protein",
         search_prompts: SAMPLE_TOPICS.protein_powder.search_prompts,
         country: "US",
         language: "en",
@@ -409,17 +409,17 @@ async function callGeminiWithRetry<T>(fn: () => Promise<T>, retries = 5, delayMs
 
       if (isQuotaExceeded) {
         isGeminiQuotaExhausted = true;
-        console.log(`[Gemini API] Quota limit detected. Switching smoothly to robust preloaded & synthetic fallback mode. Details: ${errMsg.substring(0, 150)}`);
+        console.log(`[Gemini API Info] Standard quota limit reached. Switching to robust offline preloaded & synthetic database.`);
         throw new Error("Gemini API quota is exhausted.");
       }
 
       if (isRateLimit && attempt <= retries) {
         const backoff = delayMs * Math.pow(2, attempt - 1);
-        console.log(`[Gemini API] Rate limit hit. Retrying attempt ${attempt}/${retries} in ${backoff}ms...`);
+        console.log(`[Gemini API Info] Rate limit active. Retrying attempt ${attempt}/${retries} in ${backoff}ms...`);
         await new Promise(resolve => setTimeout(resolve, backoff));
       } else if (attempt <= retries) {
         const backoff = delayMs * attempt;
-        console.log(`[Gemini API] Request pause: ${errMsg.substring(0, 150)}. Retrying attempt ${attempt}/${retries} in ${backoff}ms...`);
+        console.log(`[Gemini API Info] Paused. Retrying attempt ${attempt}/${retries} in ${backoff}ms...`);
         await new Promise(resolve => setTimeout(resolve, backoff));
       } else {
         if (isRateLimit) {
@@ -553,7 +553,7 @@ async function runResearchPipeline(runId: string) {
         videosMetadata = SAMPLE_TOPICS.protein_powder.videos.map(v => ({
           id: v.video_id,
           title: v.title,
-          description: `A systematic analysis of protein powders, whey isolates, and heavy metal concerns.`,
+          description: `A systematic analysis of plant proteins, whey isolates, and heavy metal concerns.`,
           channelTitle: v.channel_name,
           publishedAt: v.published_date,
           thumbnails: { high: { url: v.thumbnail_url } }
